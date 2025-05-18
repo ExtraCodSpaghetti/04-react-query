@@ -1,0 +1,57 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Убираем списки */
+ol,
+ul {
+  list-style: none;
+}
+
+/* Убираем стандартные стили для ссылок */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+body {
+  line-height: 1;
+  background: #fff;
+  color: #000;
+}
+
+/* Убираем переносы и рамки у изображений */
+img {
+  max-width: 100%;
+  display: block;
+  border-style: none;
+}
+
+/* Форматирование таблиц */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
