@@ -1,54 +1,78 @@
-# React + TypeScript + Vite
+# 🚀 Vite + React + TypeScript Шаблон
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Универсальный шаблон проекта на базе Vite, React и TypeScript.
 
-Currently, two official plugins are available:
+## ⚙️ Быстрый старт
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm create vite@latest
 
-## Expanding the ESLint configuration
+При появлении вопросов в консоли:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+◇ Project name: .
+◇ Select a framework: React
+◇ Select a variant: TypeScript
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Затем:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+npm i
+npm install --save-dev prettier
+npm install modern-normalize
+npm install axios
+npm install -D @types/axios
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+📁 Структура проекта
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+my-app/
+├── public/                      # Статические файлы (favicon, шрифты, изображения)
+│   └── ...
+├── src/
+│   ├── components/              # Все компоненты приложения
+│   │   ├── App/                 # Главный компонент App
+│   │   │   ├── App.tsx
+│   │   │   └── App.module.css
+│   │   ├── Common/              # Общие переиспользуемые UI-компоненты
+│   │   ├── Layout/              # Компоненты разметки (Header, Footer)
+│   │   └── (и другие папки под задачи)
+│   ├── types/                   # Общие интерфейсы и типы
+│   │   └── votes.ts
+│   ├── assets/                  # Картинки, иконки, шрифты и т.п.
+│   ├── index.css                # Глобальные стили
+│   ├── main.tsx                 # Точка входа React-приложения
+│   └── vite-env.d.ts            # Типы Vite для TypeScript
+├── index.html                   # HTML-шаблон
+├── package.json                 # Конфигурация проекта и зависимости
+├── tsconfig.json                # Конфигурация TypeScript
+├── .prettierrc                  # Настройки Prettier
+├── .gitignore                   # Исключаемые файлы для git
+└── README.md                    # Этот файл 🙂
+
+
+🧰 Полезные команды
+
+npm run dev       # Запуск проекта в режиме разработки
+npm run build     # Сборка проекта
+npm run preview   # Просмотр прод-версии локально
+
+✨ Используемые технологии
+
+    Vite
+
+    React
+
+    TypeScript
+
+    Axios
+
+    Prettier
+
+    Modern Normalize
+
+📝 Заметки
+
+    Компоненты делятся по смыслу: Common — переиспользуемые, Layout — обёртки и структура страницы, App — корневой.
+
+    Все стили пишем через .module.css, чтобы избежать конфликтов.
+
+
 ```
