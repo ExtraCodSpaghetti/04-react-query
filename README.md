@@ -65,17 +65,12 @@ npm run preview   # Просмотр прод-версии локально
 
 ## ✨ Используемые технологии
 
-```bash
-
-
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=fff)
 ![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=000)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?logo=axios&logoColor=fff)
 ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?logo=prettier&logoColor=000)
 ![Normalize](https://img.shields.io/badge/Modern--Normalize-000000?style=flat)
-
-```
 
 ## 📝 Заметки
 
