@@ -11,75 +11,73 @@ import { Movie } from '../../types/movie';
 import styles from './App.module.css';
 
 export default function App() {
-  // Храним состояния
-  const [query, setQuery] = useState(''); // Что ввёл пользователь
-  const [movies, setMovies] = useState<Movie[]>([]); // Список фильмов
-  const [isLoading, setIsLoading] = useState(false); // Спинер
-  const [IsError, setIsError] = useState(null); // Ошибка или нет
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null); // Какой фильм выбран (для модального окна)
+  // State management
+  const [query, setQuery] = useState(''); // User input query
+  const [movies, setMovies] = useState<Movie[]>([]); // List of movies
+  const [isLoading, setIsLoading] = useState(false); // Loading spinner
+  const [isError, setIsError] = useState(false); // Error state
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null); // Selected movie for modal
 
   useEffect(() => {
-    if (!query) return; // Если запрос пустой, ничего не делать, а если нет то
+    if (!query) return;
 
-    // инициализируем функцию загрузки фильмов
-    const loadItems = async () => {
+    const loadMovies = async () => {
       try {
         setIsLoading(true);
-        setIsError(null);
+        setIsError(false);
 
-        const data = await getMovies(query); // Запрашиваем фильмы с сервера через movieService
+        const data = await getMovies(query);
 
         if (data.results.length === 0) {
-          toast('No movies found for your request.');
+          toast('No movies found');
         }
 
-        setMovies(data.results); // Сохраняем список фильмов
-      } catch {
-        // ошибка ПРИ ЗАПРОСЕ
-        
+        setMovies(data.results);
+      } catch (error) {
         toast.error('Failed to fetch movies.');
+        setIsError(true);
       } finally {
-        setIsLoading(false); // Скрываем загрузку в любом случае
+        setIsLoading(false);
       }
     };
 
-    // вызиваем функцию загрузки
-    loadItems();
-  }, [query]); // зависимость: когда изменится query
+    loadMovies();
+  }, [query]);
 
-  // Обработчик поиска (вызывается при нажатии кнопки "поиск")
-  const handleSearch = (newQuery: string) => {
-    if (newQuery.trim() === '') {
-      toast('Please enter your search query.'); // Предупреждение, если строка пустая
+  // Handle form action from <SearchBar />
+  const handleFormAction = (formData: FormData) => {
+    const newQuery = (formData.get('query') as string)?.trim();
+
+    if (!newQuery) {
+      toast.error('Please enter your search query.');
       return;
     }
-    setQuery(newQuery); // Сохраняем новый запрос (меняет состояние query, потому что у setQuery есть доступ к query)
-    setMovies([]); // Очищаем старые фильмы
-    setIsError(null); // Сбрасываем ошибки
+
+    setQuery(newQuery);
+    setMovies([]);
+    setIsError(false);
   };
 
-   // Выбор фильма (для открытия модалки)
-   const handleSelect = (movie: Movie) => {
-    setSelectedMovie(movie); // Устанавливаем выбранный фильм
+  // Select movie to show in modal
+  const handleSelect = (movie: Movie) => {
+    setSelectedMovie(movie);
   };
 
-  // Закрытие модального окна
+  // Close movie modal
   const handleCloseModal = () => {
-    setSelectedMovie(null); // Убираем выбранный фильм
+    setSelectedMovie(null);
   };
 
   return (
-    <>
-      <div className={styles.app}>
-        <Toaster position="top-center" />
-        <SearchBar onSubmit={handleSearch} />
-        {isLoading && <Loader />}
-        {IsError && <ErrorMessage message={IsError} />}{' '}
-        {!isLoading && !IsError && movies.length > 0 && (
-          <MovieGrid movies={movies} onSelect={handleSelect} />
-        )}
-        {selectedMovie && <MovieModal movie={selectedMovie} onClose={handleCloseModal} />}
-      </div>
-    </>
+    <div className={styles.app}>
+      <Toaster position="top-center" />
+      <SearchBar action={handleFormAction} />
+      {isLoading && <Loader />}
+      {isError && <ErrorMessage message="Something went wrong. Please try again." />}
+      {!isLoading && !isError && movies.length > 0 && (
+        <MovieGrid movies={movies} onSelect={handleSelect} />
+      )}
+      {selectedMovie && <MovieModal movie={selectedMovie} onClose={handleCloseModal} />}
+    </div>
   );
 }
