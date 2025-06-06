@@ -44,7 +44,10 @@ export default function App() {
     loadMovies();
   }, [query]);
 
-  const handleFormAction = (newQuery: string) => {
+  const handleFormAction = (formData: FormData) => {
+    const newQuery = (formData.get('query') as string)?.trim();
+    if (!newQuery) return;
+  
     setQuery(newQuery);
     setMovies([]);
     setIsError(false);
@@ -63,7 +66,7 @@ export default function App() {
   return (
     <div className={styles.app}>
       <Toaster position="top-center" />
-      <SearchBar onSubmit={handleFormAction}/>
+      <SearchBar action={handleFormAction} />
       {isLoading && <Loader />}
       {isError && <ErrorMessage message="Something went wrong. Please try again." />}
       {!isLoading && !isError && movies.length > 0 && (
