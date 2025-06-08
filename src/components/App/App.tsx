@@ -18,7 +18,7 @@ export default function App() {
   const [query, setQuery] = useState(''); // User input query
   const [page, setPage] = useState(1); // List of pages
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null); // Selected movie for modal
-
+  
   const { data, isError, isLoading, isSuccess } = useQuery<MovieApiResponse>({
     queryKey: ['movies', query, page],
     queryFn: () => getMovies(query, page),
