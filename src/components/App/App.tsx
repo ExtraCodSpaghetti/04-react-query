@@ -1,5 +1,5 @@
 import styles from './App.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
 import SearchBar from '../SearchBar/SearchBar';
@@ -8,8 +8,9 @@ import MovieModal from '../MovieModal/MovieModal';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { getMovies } from '../../services/movieService';
-import { Movie, MovieApiResponse } from '../../types/movie';
+import { Movie } from '../../types/movie';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
+import type { MovieApiResponse } from '../../services/movieService';
 
 
 export default function App() {
@@ -25,13 +26,13 @@ export default function App() {
     placeholderData: keepPreviousData,
   });
 
-  const handleFormAction = (formData: FormData) => {
-    const query = (formData.get('query') as string)?.trim();
-    if (!query) {
+  const handleSearchSubmit = (query: string) => {
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) {
       toast.error('Please enter your search query.');
       return;
     }
-    setQuery(query);
+    setQuery(trimmedQuery);
     setPage(1);
     setSelectedMovie(null);
   };
@@ -52,10 +53,16 @@ export default function App() {
     setSelectedMovie(null);
   };
 
+  useEffect(() => {
+    if (isSuccess && movies.length === 0) {
+      toast('Nothing found. Try again.', { icon: '🔍' });
+    }
+  }, [isSuccess, movies.length]);
+
   return (
     <div className={styles.app}>
       <Toaster position="top-center" />
-      <SearchBar onSubmit={handleFormAction} />
+      <SearchBar onSubmit={handleSearchSubmit} />
 
       {isSuccess && totalPages > 1 && (
         <ReactPaginate
@@ -72,13 +79,10 @@ export default function App() {
       )}
 
       {isLoading && <Loader />}
-      {isError && <ErrorMessage message="Something went wrong. Please try again." />}
       {showMovies && movies.length > 0 && (
         <MovieGrid movies={movies} onSelect={handleSelect} />
       )}
-      {/* {showMovies && movies.length === 0 && (
-        <p className={styles.noResults}>Nothing found. Try again.</p>
-      )} */}
+      {isError && <ErrorMessage message="Something went wrong. Please try again." />}
       {selectedMovie && <MovieModal movie={selectedMovie} onClose={handleCloseModal} />}
     </div>
   );
